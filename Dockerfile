@@ -6,7 +6,6 @@ FROM node:16.0.0
 # COPY . .
 # EXPOSE 4441
 # CMD [ "node", "index.js" ]
-
 RUN mkdir -p /src/app
 WORKDIR /src/app
 
