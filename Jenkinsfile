@@ -78,8 +78,9 @@ pipeline {
         stage('Check Production Docker Image And Remove If Exist') {
             steps {
                 script {
-                    def containerExistsOutput = sh(script: "docker ps -a --filter name=blog_backend --format '{{.Names}}'/v1", returnStdout: true).trim()
-                    def imageExistsOutput = sh(script: 'docker images -q golamrabbani3587/blog_backend', returnStdout: true).trim()
+                    echo "==>Check Production Docker Image And Remove If Exist"
+                    def containerExistsOutput = sh(script: "docker ps -a --filter name=blog_backend --format '{{.Names}}'", returnStdout: true).trim()
+                    def imageExistsOutput = sh(script: 'docker images -q golamrabbani3587/blog_backendgit', returnStdout: true).trim()
 
                     if (containerExistsOutput) {
                         echo 'Container exists. Stopping and removing...'
@@ -113,18 +114,18 @@ pipeline {
                 echo '==>Successfully Running.'
             }
         }
-        // stage('Push Docker Image') {
-        //     steps {
-        //         script {
-        //             def commitMessage = sh(script: "git log --format=%s -n 1", returnStdout: true).trim()
-        //             def imageTag = "golamrabbani3587/blog_backend:${commitMessage}"
-        //             echo "==>Pushing $imageTag Container to Docker Hub"
-        //             sh "echo 'Programming123#' | docker login -u golamrabbani3587 --password-stdin"
-        //             sh "docker tag golamrabbani3587/blog_backend:v1 $imageTag"
-        //             sh "docker push $imageTag"
-        //         }
-        //     }
-        // }
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    def commitMessage = sh(script: "git log --format=%s -n 1", returnStdout: true).trim()
+                    def imageTag = "golamrabbani3587/blog_backend:${commitMessage}"
+                    echo "==>Pushing $imageTag Container to Docker Hub"
+                    sh "echo 'Programming123#' | docker login -u golamrabbani3587 --password-stdin"
+                    sh "docker tag golamrabbani3587/blog_backend:v1 $imageTag"
+                    sh "docker push $imageTag"
+                }
+            }
+        }
         // stage('Update Blue Servers') {
         //     when {
         //         expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
