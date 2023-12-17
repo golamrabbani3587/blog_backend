@@ -4,6 +4,7 @@ pipeline {
         TEST_PORT = 4488
         PROD_PORT = 1011
     }
+    
     stages {
         stage('Check Test Docker Image And Remove If Exist') {
             steps {
