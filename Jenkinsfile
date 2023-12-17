@@ -78,9 +78,9 @@ pipeline {
         stage('Check Production Docker Image And Remove If Exist') {
             steps {
                 script {
-                    echo "==>Check Production Docker Image And Remove If Exist"
+                    
                     def containerExistsOutput = sh(script: "docker ps -a --filter name=blog_backend --format '{{.Names}}'", returnStdout: true).trim()
-                    def imageExistsOutput = sh(script: 'docker images -q golamrabbani3587/blog_backendgit', returnStdout: true).trim()
+                    def imageExistsOutput = sh(script: 'docker images -q golamrabbani3587/blog_backend', returnStdout: true).trim()
 
                     if (containerExistsOutput) {
                         echo 'Container exists. Stopping and removing...'
