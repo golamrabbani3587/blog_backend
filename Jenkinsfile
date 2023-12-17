@@ -84,8 +84,8 @@ pipeline {
 
                     if (containerExistsOutput) {
                         echo 'Container exists. Stopping and removing...'
-                        sh 'docker stop blog_backend-test'
-                        sh 'docker rm blog_backend-test'
+                        sh 'docker stop golamrabbani3587/blog_backend:v1'
+                        sh 'docker rm golamrabbani3587/blog_backend:v1'
                     }
                     else {
                         echo 'Container does not exist.'
