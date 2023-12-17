@@ -83,8 +83,8 @@ pipeline {
 
                     if (containerExistsOutput) {
                         echo 'Container exists. Stopping and removing...'
-                        sh 'docker stop blog_backend:v1'
-                        sh 'docker rm blog_backend:v1'
+                        sh 'docker stop golamrabbani3587/blog_backend:v1'
+                        sh 'docker rm golamrabbani3587/blog_backend:v1'
                     }
                     else {
                         echo 'Container does not exist.'
@@ -113,18 +113,18 @@ pipeline {
                 echo '==>Successfully Running.'
             }
         }
-        stage('Push Docker Image') {
-            steps {
-                script {
-                    def commitMessage = sh(script: "git log --format=%s -n 1", returnStdout: true).trim()
-                    def imageTag = "golamrabbani3587/blog_backend:${commitMessage}"
-                    echo "==>Pushing $imageTag Container to Docker Hub"
-                    sh "echo 'Programming123#' | docker login -u golamrabbani3587 --password-stdin"
-                    sh "docker tag golamrabbani3587/blog_backend:v1 $imageTag"
-                    sh "docker push $imageTag"
-                }
-            }
-        }
+        // stage('Push Docker Image') {
+        //     steps {
+        //         script {
+        //             def commitMessage = sh(script: "git log --format=%s -n 1", returnStdout: true).trim()
+        //             def imageTag = "golamrabbani3587/blog_backend:${commitMessage}"
+        //             echo "==>Pushing $imageTag Container to Docker Hub"
+        //             sh "echo 'Programming123#' | docker login -u golamrabbani3587 --password-stdin"
+        //             sh "docker tag golamrabbani3587/blog_backend:v1 $imageTag"
+        //             sh "docker push $imageTag"
+        //         }
+        //     }
+        // }
         // stage('Update Blue Servers') {
         //     when {
         //         expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
