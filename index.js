@@ -53,6 +53,17 @@ app.get('/blog/:id', async (req, res) => {
     }
 })
 
+app.get('/blog/:d', async (req, res) => {
+  try {
+     const blogData = await PostModel.findById(req.params.id);
+
+    res.status(201).json(blogData);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+})
+
 
 app.post('/blog', (req, res)=>{
     console.log('post');
