@@ -83,15 +83,15 @@ pipeline {
 
                     if (containerExistsOutput) {
                         echo 'Container exists. Stopping and removing...'
-                        sh 'docker stop blog_backend'
-                        sh 'docker rm blog_backend'
+                        sh 'docker stop blog_backend:v1'
+                        sh 'docker rm blog_backend:v1'
                     }
                     else {
                         echo 'Container does not exist.'
                     }
                     if (imageExistsOutput) {
                         echo 'Image exists. Removing...'
-                        sh """docker rmi -f \$(docker images 'golamrabbani3587/blog_backend' -a -q)"""
+                        sh """docker rmi -f \$(docker images 'golamrabbani3587/blog_backend:v1' -a -q)"""
                     }
                     else {
                         echo 'Image does not exist.'
@@ -113,18 +113,18 @@ pipeline {
                 echo '==>Successfully Running.'
             }
         }
-        stage('Push Docker Image') {
-            steps {
-                script {
-                    def commitMessage = sh(script: "git log --format=%s -n 1", returnStdout: true).trim()
-                    def imageTag = "golamrabbani3587/blog_backend:${commitMessage}"
-                    echo "==>Pushing $imageTag Container to Docker Hub"
-                    sh "echo 'Programming123#' | docker login -u golamrabbani3587 --password-stdin"
-                    sh "docker tag golamrabbani3587/blog_backend:v1 $imageTag"
-                    sh "docker push $imageTag"
-                }
-            }
-        }
+        // stage('Push Docker Image') {
+        //     steps {
+        //         script {
+        //             def commitMessage = sh(script: "git log --format=%s -n 1", returnStdout: true).trim()
+        //             def imageTag = "golamrabbani3587/blog_backend:${commitMessage}"
+        //             echo "==>Pushing $imageTag Container to Docker Hub"
+        //             sh "echo 'Programming123#' | docker login -u golamrabbani3587 --password-stdin"
+        //             sh "docker tag golamrabbani3587/blog_backend:v1 $imageTag"
+        //             sh "docker push $imageTag"
+        //         }
+        //     }
+        // }
         // stage('Update Blue Servers') {
         //     when {
         //         expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
@@ -134,13 +134,13 @@ pipeline {
         //         sh 'terraform apply -auto-approve'
         //     }
         // }
-        stage('Provision Blue Servers') {
-            steps {
-                // Use Terraform to check if blue servers exist and provision them if they don't
-                sh 'terraform init'
-                sh 'terraform init -backend-config=backend.tfvars'
-                sh 'terraform apply -auto-approve'
-            }
-        }
+        // stage('Provision Blue Servers') {
+        //     steps {
+        //         // Use Terraform to check if blue servers exist and provision them if they don't
+        //         sh 'terraform init'
+        //         sh 'terraform init -backend-config=backend.tfvars'
+        //         sh 'terraform apply -auto-approve'
+        //     }
+        // }
     }
 }
